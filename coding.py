@@ -23,7 +23,7 @@ def approved_manufactures():
 
 @app.route('/approved_manufactures_post',methods=['post'])
 def approved_manufactures_post():
-    name=requst.form['textfield']
+    name=request.form['textfield']
     return render_template("Admin/Approved Manufactures.html")
 
 
@@ -35,9 +35,9 @@ def Change_password():
 
 @app.route('/Change_passwor_post',methods=['post'])
 def Change_password():
-    current_pass = requst.form['textfield']
-    new_pass = requst.form['textfield2']
-    confirm_pass = requst.form['textfield3']
+    current_pass = request.form['textfield']
+    new_pass = request.form['textfield2']
+    confirm_pass = request.form['textfield3']
     return render_template("Admin/ChangePassword.html")
 
 
@@ -58,14 +58,14 @@ def new_complaint():
 
 @app.route('/replay')
 def replay():
-    return render_tempate("Admin/Replay.html")
+    return render_template("Admin/Replay.html")
 
 
 
 @app.route('/replay_post',methods=['post'])
 def replay_post():
     reply = request.form['textarea']
-    return render_tempate("Admin/Replay.html")
+    return render_template("Admin/Replay.html")
 
 
 
@@ -204,18 +204,37 @@ def staff_managment_add():
 
 
 
-
-@app.route('/staff_managment_delete')
-def staff_managment_delete():
-    return render_template("Manufacters/StaffManagment-Delete.html")
-
+@app.route('/staff_managment_add_post',methods=['post'])
+def staff_managment_add_post():
+    #syntax to get value from a check box???
+    Name = request.form['textfield']
+    age = request.form['textfield2']
+    phone = request.form['textfield3']
+    ema = request.form['textfield4']
+    place = request.form['textfield5']
+    pin = request.form['textfield6']
+    Post = request.form['textfield7']
+    city = request.form['textfield8']
+    return render_template("Manufacters/StaffManagment-AddNew.html")
 
 
 
 @app.route('/product_managment_addnew')
 def product_managment_addnew():
-    return render_temlate("Manufacters/Product managment-Add new.html")
+    return render_template("Manufacters/Product managment-Add new.html")
 
+
+
+
+@app.route('/product_managment_addnew_post',methods=['post'])
+def product_managment_addnew_post():
+    imge = request.files['fileField']
+    Pname = request.form['textfield']
+    Ctgry = request.form['textfield2']
+    price = request.form['textfield3']
+    qty = request.form['textfield4']
+    description = request.form['textarea']
+    return render_template("Manufacters/Product managment-Add new.html")
 
 
 
