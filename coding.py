@@ -14,7 +14,7 @@ def login_post():
     return render_template("login.html")
 
 
-
+#-----------------------------admin
 
 @app.route('/approved_manufactures')
 def approved_manufactures():
@@ -32,35 +32,25 @@ def Change_password():
     return render_template("Admin/ChangePassword.html")
 
 
-
 @app.route('/Change_passwor_post',methods=['post'])
-def Change_password():
+def Change_passwor_post():
     current_pass = request.form['textfield']
     new_pass = request.form['textfield2']
     confirm_pass = request.form['textfield3']
     return render_template("Admin/ChangePassword.html")
 
-
 @app.route('/new_complaint')
 def new_complaint():
     return render_template("Admin/NewComplaint.html")
 
-
-
-
 @app.route('/new_complaint_post',methods=['post'])
-def new_complaint():
+def new_complaint_post():
     pro_name = request.form['textfield']
     return render_template("Admin/NewComplaint.html")
-
-
-
 
 @app.route('/replay')
 def replay():
     return render_template("Admin/Replay.html")
-
-
 
 @app.route('/replay_post',methods=['post'])
 def replay_post():
@@ -93,7 +83,7 @@ def view_user_post():
     name = request.form['textfield']
     return render_template("Admin/ViewUser.html")
 
-
+#-----------------------------------------------------------------------------
 @app.route('/catagory_managment')
 def catagory_managment():
     return render_template("Manufacters/CatagoryManagment.html")
@@ -194,6 +184,10 @@ def sign_up_post():
 def staff_managment():
     return render_template("Manufacters/StaffManagment-0.html")
 
+@app.route('/staff_managment_post',methods=['post'])
+def staff_managment_post():
+    Search = request.form['textfield']
+    return render_template("Manufacters/StaffManagment-0.html")
 
 
 
@@ -207,6 +201,7 @@ def staff_managment_add():
 @app.route('/staff_managment_add_post',methods=['post'])
 def staff_managment_add_post():
     #syntax to get value from a check box???
+    Gender= request.form['checkbox']
     Name = request.form['textfield']
     age = request.form['textfield2']
     phone = request.form['textfield3']
