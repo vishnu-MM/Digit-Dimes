@@ -1,0 +1,28 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Untitled Document</title>
+</head>
+
+<body>
+<table width="427" height="244" border="1">
+  <tr>
+    <td scope="col">Date</td>
+    <td scope="col">User</td>
+    <td scope="col">Rating</td>
+    <td scope="col">Review</td>
+    <td scope="col">Staff</td>
+  </tr>
+   {%for i in data%}
+  <tr>
+    <td> {{i['date']}} </td>
+    <td> {{i['user']}} </td>
+    <td> {{i['rating']}} </td>
+    <td> {{i['review']}} </td>
+    <td> {{i['sname']}} </td>
+  </tr>
+   {%endfor%}
+</table>
+</body>
+</html>

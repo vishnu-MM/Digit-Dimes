@@ -1,5 +1,5 @@
 from flask import *
-
+from DBConnection import Db
 app=Flask(__name__)
 
 
@@ -16,9 +16,17 @@ def login_post():
 
 #-----------------------------admin
 
+@app.route('/Home')
+def Home():
+    return render_template("Admin/Home.html")
+
+
 @app.route('/approved_manufactures')
 def approved_manufactures():
-    return render_template("Admin/Approved Manufactures.html")
+    db=Db()
+    qry="SELECT * FROM manufacturer  where status='Approved'"
+    res=db.select(qry)
+    return render_template("Admin/Approved Manufactures.html",data=res)
 
 
 @app.route('/approved_manufactures_post',methods=['post'])
@@ -41,7 +49,10 @@ def Change_passwor_post():
 
 @app.route('/new_complaint')
 def new_complaint():
-    return render_template("Admin/NewComplaint.html")
+    db = Db()
+    qry = "SELECT * FROM compalint JOIN USER ON user.user_lid = compalint.user_lid"
+    res = db.select(qry)
+    return render_template("Admin/NewComplaint.html",data=res)
 
 @app.route('/new_complaint_post',methods=['post'])
 def new_complaint_post():
@@ -61,7 +72,10 @@ def replay_post():
 
 @app.route('/verifing_manufactiores')
 def verifing_manufactiores():
-    return render_template("Admin/VerifingManufactores.html")
+    db = Db()
+    qry = "SELECT * FROM manufacturer where status= 'pending' "
+    res = db.select(qry)
+    return render_template("Admin/VerifingManufactores.html",data=res)
 
 
 
@@ -75,7 +89,10 @@ def verifing_manufactiores_post():
 
 @app.route('/view_user')
 def view_user():
-    return render_template("Admin/ViewUser.html")
+    db = Db()
+    qry = "SELECT * FROM user "
+    res = db.select(qry)
+    return render_template("Admin/ViewUser.html",data=res)
 
 
 @app.route('/view_user_post',methods=['post'])
@@ -86,7 +103,10 @@ def view_user_post():
 #-----------------------------------------------------------------------------
 @app.route('/catagory_managment')
 def catagory_managment():
-    return render_template("Manufacters/CatagoryManagment.html")
+    db = Db()
+    qry = "SELECT * FROM category"
+    res = db.select(qry)
+    return render_template("Manufacters/CatagoryManagment.html",data=res)
 
 
 @app.route('/catagory_managment_post',methods=['post'])
@@ -98,7 +118,13 @@ def catagory_managment_post():
 
 @app.route('/delivary_rating')
 def delivary_rating():
-    return render_template("Manufacters/DelivaryRating.html")
+    db = Db()
+    qry = "SELECT * FROM delivery_rating " \
+          "JOIN `deliverry_assign` ON `deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id`" \
+          "JOIN `order_main`ON `order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user` ON `user`.`user_lid`=`order_main`.`user-lid`" \
+          "JOIN `staff` ON `staff`.`staff-lid`=`deliverry_assign`.`staff_id` WHERE `order_main`.`order_id`=''  "
+    res = db.select(qry)
+    return render_template("Manufacters/DelivaryRating.html",data=res)
 
 
 
@@ -234,17 +260,25 @@ def product_managment_addnew_post():
 
 
 
+@app.route('/Catagory_Managment_Add')
+def Catagory_Managment_Add():
+    return render_template('Manufacters/Catagory Managment Add.html')
 
 
 
 
 
+@app.route('/Catagory_Managment_Add_post',methods=['post'])
+def Catagory_Managment_Add_post():
+    CataName = request.form['textfield']
+    return render_template('Manufacters/Catagory Managment Add.html')
 
 
 
 
-
-
+@app.route('/Home_Manufactors')
+def Home_Manufactors():
+    return render_template("Manufacters/Home_Manufactors.html")
 
 
 

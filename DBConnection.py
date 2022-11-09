@@ -4,7 +4,7 @@ class Db:
 
     def __init__(self):
 
-        self.cnx = mysql.connector.connect(host="localhost", user="root", password="", database="project")
+        self.cnx = mysql.connector.connect(host="localhost", user="root", password="", database="digit_dimes")
         self.cur = self.cnx.cursor(dictionary=True)
 
 
