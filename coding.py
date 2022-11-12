@@ -32,7 +32,10 @@ def approved_manufactures():
 @app.route('/approved_manufactures_post',methods=['post'])
 def approved_manufactures_post():
     name=request.form['textfield']
-    return render_template("Admin/Approved Manufactures.html")
+    db = Db()
+    qry = "SELECT * FROM manufacturer  where status='approved' AND name LIKE '%"+name+"%'"
+    res = db.select(qry)
+    return render_template("Admin/Approved Manufactures.html",data=res)
 
 
 @app.route('/Change_password')
@@ -59,14 +62,18 @@ def new_complaint_post():
     pro_name = request.form['textfield']
     return render_template("Admin/NewComplaint.html")
 
-@app.route('/replay')
-def replay():
-    return render_template("Admin/Replay.html")
+@app.route('/replay/<id>')
+def replay(id):
+    return render_template("Admin/Replay.html",rid=id)
 
 @app.route('/replay_post',methods=['post'])
 def replay_post():
+    comp_id=request.form['comp_id']
     reply = request.form['textarea']
-    return render_template("Admin/Replay.html")
+    db=Db()
+    qry="UPDATE `compalint` SET replay='"+reply+"',STATUS='replyed' WHERE comp_id="+comp_id+""
+    res=db.update(qry)
+    return render_template("Admin/Replay.html",data=res)
 
 
 
@@ -77,6 +84,20 @@ def verifing_manufactiores():
     res = db.select(qry)
     return render_template("Admin/VerifingManufactores.html",data=res)
 
+@app.route('/approve_manufactiores/<id>')
+def approve_manufactiores(id):
+    qry="UPDATE `manufacturer` SET STATUS='approved' WHERE man_id='"+id+"'"
+    db=Db()
+    res=db.update(qry)
+    return '''<script>alert('approved successfully');window.location='/verifing_manufactiores'</script>'''
+
+
+@app.route('/reject_manufactiores/<id>')
+def reject_manufactiores(id):
+    qry="UPDATE `manufacturer` SET STATUS='reject' WHERE man_id='"+id+"'"
+    db=Db()
+    res=db.update(qry)
+    return '''<script>alert('Rejected Successfully');window.location='/verifing_manufactiores'</script>'''
 
 
 @app.route('/verifing_manufactiores_post',methods=['post'])
@@ -98,7 +119,10 @@ def view_user():
 @app.route('/view_user_post',methods=['post'])
 def view_user_post():
     name = request.form['textfield']
-    return render_template("Admin/ViewUser.html")
+    db = Db()
+    qry = "SELECT * FROM `user`  WHERE naame LIKE '%"+name+"%' "
+    res = db.select(qry)
+    return render_template("Admin/ViewUser.html",data=res)
 
 #-----------------------------------------------------------------------------
 @app.route('/catagory_managment')
@@ -119,10 +143,11 @@ def catagory_managment_post():
 @app.route('/delivary_rating')
 def delivary_rating():
     db = Db()
-    qry = "SELECT * FROM delivery_rating " \
-          "JOIN `deliverry_assign` ON `deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id`" \
-          "JOIN `order_main`ON `order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user` ON `user`.`user_lid`=`order_main`.`user-lid`" \
-          "JOIN `staff` ON `staff`.`staff-lid`=`deliverry_assign`.`staff_id` WHERE `order_main`.`order_id`=''  "
+    # qry = "SELECT * FROM delivery_rating " \
+    #       "JOIN `deliverry_assign` ON `deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id`" \
+    #       "JOIN `order_main`ON `order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user` ON `user`.`user_lid`=`order_main`.`user-lid`" \
+    #       "JOIN `staff` ON `staff`.`staff-lid`=`deliverry_assign`.`staff_id` WHERE `order_main`.`order_id`=''  "
+    qry="SELECT * FROM delivery_rating JOIN `deliverry_assign` ON `deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id` JOIN `order_main`ON `order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user` ON `user`.`user_lid`=`order_main`.`user-lid` JOIN `staff` ON `staff`.`staff-lid`=`deliverry_assign`.`staff_id` WHERE `order_main`.`order_id`='"+str(session['lid'])+"'"
     res = db.select(qry)
     return render_template("Manufacters/DelivaryRating.html",data=res)
 
@@ -132,7 +157,10 @@ def delivary_rating():
 
 @app.route('/product_managment_add')
 def product_managment_add():
-    return render_template("Manufacters/ProductManagment-Add.html")
+    db = Db()
+    qry = " "
+    res = db.select(qry)
+    return render_template("Manufacters/ProductManagment-Add.html",data=res)
 
 
 @app.route('/product_managment_add-_post',methods=['post'])
