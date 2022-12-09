@@ -261,11 +261,7 @@ def Catagory_Managment_edit_post():
 @app.route('/delivary_rating')
 def delivary_rating():
     db = Db()
-    # qry = "SELECT * FROM delivery_rating " \
-    #       "JOIN `deliverry_assign` ON `deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id`" \
-    #       "JOIN `order_main`ON `order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user` ON `user`.`user_lid`=`order_main`.`user-lid`" \
-    #       "JOIN `staff` ON `staff`.`staff-lid`=`deliverry_assign`.`staff_id` WHERE `order_main`.`order_id`=''  "
-    qry="SELECT * FROM delivery_rating JOIN `deliverry_assign` ON `deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id` JOIN `order_main`ON `order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user` ON `user`.`user_lid`=`order_main`.`user-lid` JOIN `staff` ON `staff`.`staff-lid`=`deliverry_assign`.`staff_id` WHERE `order_main`.`order_id`='"+str(session['lid'])+"'"
+    qry=" SELECT * FROM `delivery_rating` JOIN `deliverry_assign`ON`deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id` JOIN `order_main`ON`order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user`ON`user`.`user_lid`=`order_main`.`user-lid`JOIN `staff`ON `staff`.`staff_`=`deliverry_assign`.`staff_id`WHERE `staff`.`man-id`='"+str(session['lid'])+"' "
     res = db.select(qry)
     return render_template("Manufacters/DelivaryRating.html",data=res)
 
@@ -373,7 +369,10 @@ def product_managment_delete(id):
 
 @app.route('/product_review')
 def product_review():
-    return render_template("Manufacters/ProductReview.html")
+    db = Db()
+    qry = " SELECT * FROM `product_review` JOIN `user`ON `user`.`user_lid`=`product_review`.`user_lid` JOIN `product`ON`product`.`pid` = `product_review`.`pid` WHERE `product`.`man_id`= '"+str(session['lid'])+"' "
+    res = db.select(qry)
+    return render_template("Manufacters/ProductReview.html",data = res)
 
 
 
