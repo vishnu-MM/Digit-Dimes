@@ -6,34 +6,35 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="/staff_managment_add_post">
+<form id="form1" name="form1" method="post" action="/StaffManagment_Edit_post">
   <table width="387" height="377" border="0">
     <tr>
+      <input type="hidden" name="ID" value="{{data['staff_']}}">
       <td>Name</td>
       <td colspan="2"><label for="textfield"></label>
-      <input type="text" name="textfield" id="textfield" /></td>
+      <input type="text" name="textfield" value="{{data['sname']}}" /></td>
     </tr>
     <tr>
       <td>Age</td>
       <td colspan="2"><label for="textfield2"></label>
-      <input type="text" name="textfield2" id="textfield2" /></td>
+      <input type="text" name="textfield2" value="{{data['age']}}" /></td>
     </tr>
     <tr>
       <td>Gender</td>
       <td colspan="3"><p>
-        <input type="radio" value="Female" name="checkbox" id="gen" />
-        <label for="checkbox">Female   <br />
+        <input type="radio" name="radio" value="Female"  {% if data['gender']=='Female' %}checked {%endif%} />
+        <label for="radio">Female   <br />
         </label>
       </p>
         <p>
 
-          <input type="radio" value="Male" name="checkbox" id="gen2" />
-          <label for="checkbox2">      </label>
-          Male
+          <input type="radio" name="radio" value="Male"   {% if data['gender']=='Male' %}checked {%endif%} />
+          <label for="radio"> Male <br/>     </label>
+
         </p>
         <p>
-        <input type="radio" value="Others" name="checkbox" id="gen3" />
-        <label for="checkbox">Others   <br />
+        <input type="radio" name="radio" value="Others"  {% if data['gender']=='Others' %}checked {%endif%} />
+        <label for="radio">Others   <br />
         </label>
       </p>
       </td>
@@ -41,33 +42,33 @@
     <tr>
       <td>Phone</td>
       <td colspan="2"><label for="textfield3"></label>
-      <input type="text" name="textfield3" id="textfield3" /></td>
+      <input type="text" name="textfield3" value="{{data['phone']}}" /></td>
     </tr>
     <tr>
       <td>E-mail</td>
       <td colspan="2"><label for="textfield4"></label>
-      <input type="text" name="textfield4" id="textfield4" /></td>
+      <input type="text" name="textfield4" value="{{data['email']}}" /></td>
     </tr>
     <tr>
       <td rowspan="4">Address</td>
       <td>Place</td>
       <td><label for="textfield5"></label>
-      <input type="text" name="textfield5" id="textfield5" /></td>
+      <input type="text" name="textfield5" value="{{data['place']}}" /></td>
     </tr>
     <tr>
       <td>Pin</td>
       <td><label for="textfield6"></label>
-      <input type="text" name="textfield6" id="textfield6" /></td>
+      <input type="text" name="textfield6" value="{{data['pin']}}" /></td>
     </tr>
     <tr>
       <td>Post</td>
       <td><label for="textfield7"></label>
-      <input type="text" name="textfield7" id="textfield7" /></td>
+      <input type="text" name="textfield7" value="{{data['post']}}" /></td>
     </tr>
     <tr>
       <td>City</td>
       <td><label for="textfield8"></label>
-      <input type="text" name="textfield8" id="textfield8" /></td>
+      <input type="text" name="textfield8" value="{{data['city']}}" /></td>
     </tr>
     <tr>
       <td colspan="3"><input type="submit" name="button" id="button" value="Submit" /></td>

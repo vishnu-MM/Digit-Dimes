@@ -7,40 +7,48 @@
 
 <body>
 <form action="/Product_Managment_edit_post" method="post" enctype="multipart/form-data" name="form1" id="form1">
+
   <table width="401" height="259" border="1">
+      <input type="hidden" value="{{data['pid']}}" name="id"/>
     <tr>
-      <td colspan="2"><label>
-        <input type="file" name="fileField" id="fileField" />
+        <td> <img src=" {{data['photo']}}" height="100px" width="100px"> </td>
+      <td><label>
+        <input type="file" name="fileField" id="fileField"  />
       </label></td>
     </tr>
     <tr>
       <td> Product Name</td>
       <td><label>
-        <input type="text" name="textfield" id="textfield" />
+        <input type="text" name="textfield" value="{{data['product_name']}}" />
       </label></td>
     </tr>
     <tr>
-      <td>Catagory</td>
+      <td>Category</td>
       <td><label>
-        <input type="text" name="textfield2" id="textfield2" />
+         <select name="textfield2">
+             <option value="{{data['category-id']}}" hidden>{{data['category']}}  </option>
+          {% for i in data2 %}
+          <option value="{{ i['category-id'] }}" >{{i['category']}} </option>
+          {% endfor %}
+        </select>
       </label></td>
     </tr>
     <tr>
       <td>Price</td>
       <td><label>
-        <input type="text" name="textfield3" id="textfield3" />
+        <input type="text" name="textfield3" value="{{data['price']}}" />
       </label></td>
     </tr>
     <tr>
       <td>Quantity</td>
       <td><label>
-        <input type="text" name="textfield4" id="textfield4" />
+        <input type="text" name="textfield4" value="{{data['qty']}}" />
       </label></td>
     </tr>
     <tr>
       <td >Discription</td>
       <td><label>
-        <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
+        <textarea name="textarea" cols="45" rows="5">{{data['description']}} </textarea>
       </label></td>
     </tr>
 

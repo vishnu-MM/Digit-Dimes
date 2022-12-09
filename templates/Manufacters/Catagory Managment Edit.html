@@ -6,12 +6,14 @@
 </head>
 
 <body>
-<form id="form1" name="form1" method="post" action="/Catagory_Managment_Add_post">
+<form id="form1" name="form1" method="post" action="/Catagory_Managment_edit_post ">
+  <input type="hidden" name="id" value="{{data['category-id']}}">
+
   <table width="388" height="193" border="1">
     <tr>
       <td>Category Name</td>
       <td>
-        <input type="text" name="textfield" id="textfield" />
+        <input type="text" name="textfield" id="textfield"  value="{{data['category']}}" />
       </td>
       <td colspan="2"><input type="submit" name="button" id="button" value="Submit" /></td>
     </tr>

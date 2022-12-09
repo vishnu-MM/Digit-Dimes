@@ -11,6 +11,7 @@
     <label for="textfield"></label>
     <input type="text" name="textfield" id="textfield" />
     <input type="submit" name="button" id="button" value="Search" />
+    <a href=" /Catagory_Managment_Add "> Add New</a>
   </p>
   <table width="369" height="157" border="1">
     <tr>
@@ -24,8 +25,8 @@
     <tr>
       <td> {{loop.index}} </td>
       <td> {{i['category']}} </td>
-      <td> <a href="">Edit</a> </td>
-      <td> <a href="">Delete</a> </td>
+      <td> <a href="/Catagory_Managment_edit/{{i['category-id']}}">Edit</a> </td>
+      <td> <a href="/catagory_managment_delete/{{i['category-id']}}">Delete</a> </td>
     </tr>
     {%endfor%}
 
