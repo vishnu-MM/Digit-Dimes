@@ -9,7 +9,7 @@ app.secret_key="ghhjggm"
 
 @app.route('/')
 def login():
-    return render_template("login.html")
+    return render_template("index.html")
 
 
 
@@ -28,9 +28,9 @@ def login_post():
         elif res['type']=='manufacture':
             return redirect('/Home_Manufactors')
         else:
-            return "ok"
+            return "<script>alert('please check your login credentials');window.location='/'</script>"
     else:
-        return "okk"
+        return "<script>alert('please check your login credentials');window.location='/'</script>"
 
 
 
@@ -44,7 +44,7 @@ def login_post():
 
 @app.route('/Home')
 def Home():
-    return render_template("Admin/Home.html")
+    return render_template("Admin/index.html")
 
 
 
@@ -81,7 +81,15 @@ def Change_passwor_post():
     current_pass = request.form['textfield']
     new_pass = request.form['textfield2']
     confirm_pass = request.form['textfield3']
-    return render_template("Admin/ChangePassword.html")
+    db = Db()
+    qry="select * from login where password='"+current_pass+"' and lid='"+str(session['lid'])+"'"
+    res=db.selectOne(qry)
+    if res is not None:
+        if new_pass==confirm_pass:
+            qry1=" UPDATE `login` SET `password`='"+new_pass+"' WHERE `lid`='"+str(session['lid'])+"'"
+            res=db.update(qry1)
+    return '''<script>alert('Password changed Successfully');window.location='/Home'</script>'''
+
 
 
 
@@ -119,7 +127,7 @@ def replay_post():
     db=Db()
     qry="UPDATE `compalint` SET replay='"+reply+"',STATUS='replyed' WHERE comp_id="+comp_id+""
     res=db.update(qry)
-    return render_template("Admin/Replay.html",data=res)
+    return redirect("/new_complaint")
 
 
 
@@ -312,13 +320,20 @@ def Product_Managment_edit_post():
     price = request.form['textfield3']
     qty = request.form['textfield4']
     discr = request.form['textarea']
-    from _datetime import datetime
-    date = datetime.now().strftime("%d%M%y-%H%M%S")
-    img.save("C:\\Users\\vishn\\PycharmProjects\\digit dimes\\static\\product\\" + date + ".jpg")
-    path = "/static/product/" + date + ".jpg"
-    db = Db()
-    qry = " UPDATE `product` SET `photo`='"+path+"',`product_name`='"+pro_name+"',`price`='"+str(price)+"',`qty`='"+str(qty)+"',`categort-id`='"+catgry+"',`description`='"+discr+"' WHERE `pid`='"+Id+"' "
-    res = db.update(qry)
+
+    db=Db()
+    if img.filename != '':
+        from _datetime import datetime
+        date = datetime.now().strftime("%d%M%y-%H%M%S")
+        img.save("C:\\Users\\vishn\\PycharmProjects\\digit dimes\\static\\product\\" + date + ".jpg")
+        path = "/static/product/" + date + ".jpg"
+        qry = " UPDATE `product` SET `photo`='"+path+"',`product_name`='"+pro_name+"',`price`='"+str(price)+"',`qty`='"+str(qty)+"',`categort-id`='"+catgry+"',`description`='"+discr+"' WHERE `pid`='"+Id+"' "
+        res = db.update(qry)
+    else:
+        qry = " UPDATE `product` SET `product_name`='" + pro_name + "',`price`='" + str(
+            price) + "',`qty`='" + str(
+            qty) + "',`categort-id`='" + catgry + "',`description`='" + discr + "' WHERE `pid`='" + Id + "' "
+        res = db.update(qry)
     return redirect('/product_managment')
 
 
@@ -381,19 +396,41 @@ def product_review():
 
 @app.route('/profile_managment')
 def profile_managment():
-    return render_template("Manufacters/ProfileManagment.html")
+    db = Db()
+    qry = "    SELECT * FROM `manufacturer` WHERE `man_lid`='"+str(session['lid'])+"'  "
+    res = db.selectOne(qry)
+    return render_template("Manufacters/ProfileManagment.html",data=res)
 
 
 
 
 @app.route('/profile_managment_post',methods=['post'])
 def profile_managment_post():
-    name = request.form['textfield']
+    usrname = request.form['textfield']
     propri_name = request.form['textfield2']
     ph = request.form['textfield3']
-    ema =  request.form['textfield4']
-    return render_template("Manufacters/ProfileManagment.html")
+    ema = request.form['textfield4']
+    place = request.form['textfield5']
+    pst = request.form['textfield6']
+    pin = request.form['textfield7']
+    Latitude = request.form['textfield8']
+    Longitude = request.form['textfield9']
+    db = Db()
+    qry = "  UPDATE `manufacturer` SET `name`='"+usrname+"',`propreitir_name`='"+propri_name+"',`email`='"+ema+"',`phone`='"+ph+"',`place`='"+place+"',`post`='"+pst+"',`pin`='"+pin+"',`latitude`='"+ Latitude+"',`longitude`='"+Longitude+"' WHERE `man_lid`='"+str(session['lid'])+"'  "
+    res = db.update(qry)
+    return redirect('/profile_management_view')
 
+
+
+
+
+
+@app.route('/profile_management_view')
+def profile_management_view():
+    db = Db()
+    qry = "Select * from manufacturer where man_lid='"+str(session['lid'])+"'"
+    res = db.selectOne(qry)
+    return  render_template("Manufacters/ProfileManagment_View.html",data=res)
 
 
 
@@ -422,7 +459,7 @@ def sign_up_post():
     if passwd==passwdC:
         qry="INSERT INTO `login`(`username`,`password`,`type`)VALUES('"+ema+"','"+passwd+"','manufacture')"
         res=db.insert(qry)
-        qry2="INSERT INTO `manufacturer` (`man_lid`,`name`,`propreitir_name`,`email`,`phone`,`place`,`post`,`pin`,`latitude`,`longitude`,`status`) VALUES('"+str(res)+"','"+usrname+"','"+propri_name+"','"+ph+"','"+ema+"','"+place+"','"+pst+"','"+pin+"','"+Latitude+"','"+Longitude+"','pending')"
+        qry2="INSERT INTO `manufacturer` (`man_lid`,`name`,`propreitir_name`,`email`,`phone`,`place`,`post`,`pin`,`latitude`,`longitude`,`status`) VALUES('"+str(res)+"','"+usrname+"','"+propri_name+"','"+ema+"','"+ph+"','"+place+"','"+pst+"','"+pin+"','"+Latitude+"','"+Longitude+"','pending')"
         res=db.insert(qry2)
         return redirect('/')
     else:
@@ -519,6 +556,24 @@ def Staff_management_Delete(id):
 
 
 
+@app.route('/Change_passwords')
+def Change_passwords():
+    return render_template("Manufacters/ChangePasswords.html")
+
+
+@app.route('/Change_passwords_post',methods=['post'])
+def Change_passwords_post():
+    current_pass = request.form['textfield']
+    new_pass = request.form['textfield2']
+    confirm_pass = request.form['textfield3']
+    db = Db()
+    qry="select * from login where password='"+current_pass+"' and lid='"+str(session['lid'])+"'"
+    res=db.selectOne(qry)
+    if res is not None:
+        if new_pass==confirm_pass:
+            qry1=" UPDATE `login` SET `password`='"+new_pass+"' WHERE `lid`='"+str(session['lid'])+"'"
+            res=db.update(qry1)
+    return '''<script>alert('Password changed Successfully');window.location='/profile_management_view'</script>'''
 
 
 @app.route('/Home_Manufactors')

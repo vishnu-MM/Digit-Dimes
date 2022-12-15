@@ -7,31 +7,60 @@
 
 <body>
 <form id="form1" name="form1" method="post" action="/profile_managment_post">
-  <table width="396" height="275" border="0">
-    <tr>
-      <td width="49">Name</td>
-      <td width="152"><label for="textfield2"></label>
-        <input type="text" name="textfield" id="textfield2" /></td>
-    </tr>
-    <tr>
-      <td>Proprietor Name</td>
-      <td><label for="textfield3"></label>
-        <input type="text" name="textfield2" id="textfield3" /></td>
-    </tr>
-    <tr>
-      <td>Phone</td>
-      <td><label for="textfield4"></label>
-        <input type="text" name="textfield3" id="textfield4" /></td>
-    </tr>
-    <tr>
-      <td>E-mail</td>
-      <td><label for="textfield5"></label>
-        <input type="text" name="textfield4" id="textfield5" /></td>
-    </tr>
-    <tr>
-      <td colspan="2"><input type="submit" name="button" id="button" value="Edit" /></td>
-    </tr>
-  </table>
+
+<table width="343" height="366" border="1">
+  <tr>
+    <td>UserName</td>
+    <td colspan="2"><label for="textfield"></label>
+      <input type="text" name="textfield" value="{{data['name']}}" /></td>
+  </tr>
+  <tr>
+    <td>Proprietor Name</td>
+    <td colspan="2"><label for="textfield2"></label>
+      <input type="text" name="textfield2" value="{{data['propreitir_name']}}" /></td>
+  </tr>
+  <tr>
+    <td>Phone</td>
+    <td colspan="2"><label for="textfield3"></label>
+      <input type="text" name="textfield3" value=" {{data['phone']}}" /></td>
+  </tr>
+  <tr>
+    <td>E-mail</td>
+    <td colspan="2"><label for="textfield4"></label>
+      <input type="text" name="textfield4" value="{{data['email']}}" readonly /></td>
+  </tr>
+  <tr>
+    <td rowspan="5">Address</td>
+    <td>Place</td>
+    <td><label for="textfield5"></label>
+      <input type="text" name="textfield5" value="{{data['place']}}" /></td>
+  </tr>
+  <tr>
+    <td>Post</td>
+    <td><label for="textfield6"></label>
+      <input type="text" name="textfield6" value="{{data['post']}}" /></td>
+  </tr>
+  <tr>
+    <td>Pin</td>
+    <td><label for="textfield7"></label>
+      <input type="text" name="textfield7" value="{{data['pin']}}" /></td>
+  </tr>
+  <tr>
+    <td>Latitude</td>
+    <td>Longitude</td>
+  </tr>
+  <tr>
+    <td><label for="textfield8"></label>
+      <input type="text" name="textfield8" value="{{data['latitude']}}" /></td>
+    <td><label for="textfield9"></label>
+      <input type="text" name="textfield9" value="{{data['longitude']}}" /></td>
+  </tr>
+  <tr>
+    <td colspan="2"><input type="submit" name="button" id="button" value="Update Profile" /></td>
+      <td> <a href="/Change_passwords"> Change Password</a> </td>
+  </tr>
+</table>
 </form>
+
 </body>
 </html>

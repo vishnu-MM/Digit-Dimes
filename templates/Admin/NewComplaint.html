@@ -26,7 +26,7 @@
       <td> {{i['naame']}}</td>
       <td> {{i['complaint']}}</td>
       <td> {{i['date']}}</td>
-      <td>{% if i['status']=='pending' %}<a href="/replay/{{i['comp-id']}}">Reply</a>{% else %}{{ i['replay'] }}{% endif %}</td>
+      <td>{% if i['status']=='pending' %}<a href="/replay/{{i['comp_id']}}">Reply</a>{% else %}{{ i['replay'] }}{% endif %}</td>
     </tr>
      {%endfor%}
   </table>
