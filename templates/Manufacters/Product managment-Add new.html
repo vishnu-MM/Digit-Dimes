@@ -1,57 +1,52 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
+{% extends 'Manufacters/index_manufacters.html' %}
+{% block body %}
 <body>
 <form action="/product_managment_addnew_post" method="post" enctype="multipart/form-data" name="form1" id="form1">
-  <table width="401" height="259" border="0">
+  <table border="0" class="table table-borderless table-striped table-hover">
     <tr>
       <td colspan="2"><label>
-        <input type="file" name="fileField" id="fileField" />
+        <input type="file" name="fileField" id="fileField" class="form-control"/>
       </label></td>
     </tr>
     <tr>
-      <td> Product Name</td>
+      <th> Product Name</th>
       <td><label>
-        <input type="text" name="textfield" id="textfield" />
+        <input type="text" name="textfield" id="textfield" class="form-control" />
       </label></td>
     </tr>
     <tr>
-      <td>Catagory</td>
-      <td><label>
-        <select name="textfield2">
+      <th>Catagory</th>
+      <td>
+        <select name="textfield2" >
           {% for i in data %}
           <option value="{{ i['category-id'] }}">{{i['category']}}</option>
           {% endfor %}
         </select>
+    </td>
+    </tr>
+    <tr>
+      <th>Price</th>
+      <td><label>
+        <input type="text" name="textfield3" id="textfield3" class="form-control" />
       </label></td>
     </tr>
     <tr>
-      <td>Price</td>
+      <th>Quantity</th>
       <td><label>
-        <input type="text" name="textfield3" id="textfield3" />
+        <input type="text" name="textfield4" id="textfield4" class="form-control" />
       </label></td>
     </tr>
     <tr>
-      <td>Quantity</td>
+      <th >Discription</th>
       <td><label>
-        <input type="text" name="textfield4" id="textfield4" />
-      </label></td>
-    </tr>
-    <tr>
-      <td >Discription</td>
-      <td><label>
-        <textarea name="textarea" id="textarea" cols="45" rows="5"></textarea>
+        <textarea name="textarea" id="textarea" cols="45" rows="5" class="form-control" ></textarea>
       </label></td>
     </tr>
   
-   <tr>
-      <td colspan="2" ><input type="submit" name="button" id="button" value="Submit" /></td>
+   <tr align="right">
+      <td colspan="2" ><input type="submit"  name="button" id="button" value="Submit" class="btn btn-outline-warning" /></td>
     </tr>
     </table>
 </form>
 </body>
-</html>
+{% endblock %}

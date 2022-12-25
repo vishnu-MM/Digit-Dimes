@@ -23,6 +23,7 @@ def login_post():
     print(res)
     if res is not None:
         session['lid']=res['lid']
+        session['log']="lin"
         if res['type']=='admin':
             return redirect('/Home')
         elif res['type']=='manufacture':
@@ -38,13 +39,19 @@ def login_post():
 #-----------------------------admin
 
 
-
+@app.route('/logout')
+def logout():
+    session['log']==""
+    return render_template("login.html")
 
 
 
 @app.route('/Home')
 def Home():
-    return render_template("Admin/index.html")
+    if session['log']=='lin':
+        return render_template("Admin/index.html")
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -55,7 +62,10 @@ def approved_manufactures():
     db=Db()
     qry="SELECT * FROM manufacturer  where status='Approved'"
     res=db.select(qry)
-    return render_template("Admin/Approved Manufactures.html",data=res)
+    if session['log'] == 'lin':
+        return render_template("Admin/Approved Manufactures.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 @app.route('/approved_manufactures_post',methods=['post'])
@@ -73,7 +83,11 @@ def approved_manufactures_post():
 
 @app.route('/Change_password')
 def Change_password():
-    return render_template("Admin/ChangePassword.html")
+    if session['log'] == 'lin':
+       return render_template("Admin/ChangePassword.html")
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
+
 
 
 @app.route('/Change_passwor_post',methods=['post'])
@@ -101,7 +115,11 @@ def new_complaint():
     db = Db()
     qry = "SELECT * FROM compalint JOIN USER ON user.user_lid = compalint.user_lid"
     res = db.select(qry)
-    return render_template("Admin/NewComplaint.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Admin/NewComplaint.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
+
 
 
 @app.route('/new_complaint_post',methods=['post'])
@@ -116,7 +134,11 @@ def new_complaint_post():
 
 @app.route('/replay/<id>')
 def replay(id):
-    return render_template("Admin/Replay.html",rid=id)
+    if session['log'] == 'lin':
+       return render_template("Admin/Replay.html",rid=id)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
+
 
 
 
@@ -139,7 +161,11 @@ def verifing_manufactiores():
     db = Db()
     qry = "SELECT * FROM manufacturer where status= 'pending' "
     res = db.select(qry)
-    return render_template("Admin/VerifingManufactores.html",data=res)
+    if session['log'] == 'lin':
+      return render_template("Admin/VerifingManufactores.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
+
 
 
 
@@ -148,7 +174,10 @@ def approve_manufactiores(id):
     qry="UPDATE `manufacturer` SET STATUS='approved' WHERE man_id='"+id+"'"
     db=Db()
     res=db.update(qry)
-    return '''<script>alert('approved successfully');window.location='/verifing_manufactiores'</script>'''
+    if session['log'] == 'lin':
+       return '''<script>alert('approved successfully');window.location='/verifing_manufactiores'</script>'''
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -157,7 +186,10 @@ def reject_manufactiores(id):
     qry="UPDATE `manufacturer` SET STATUS='reject' WHERE man_id='"+id+"'"
     db=Db()
     res=db.update(qry)
-    return '''<script>alert('Rejected Successfully');window.location='/verifing_manufactiores'</script>'''
+    if session['log'] == 'lin':
+       return '''<script>alert('Rejected Successfully');window.location='/verifing_manufactiores'</script>'''
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -180,7 +212,10 @@ def view_user():
     db = Db()
     qry = "SELECT * FROM user "
     res = db.select(qry)
-    return render_template("Admin/ViewUser.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Admin/ViewUser.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -204,7 +239,10 @@ def catagory_managment():
     db = Db()
     qry = "SELECT * FROM category where `man_lid`='"+str(session['lid'])+"'"
     res = db.select(qry)
-    return render_template("Manufacters/CatagoryManagment.html",data=res)
+    if session['log'] == 'lin':
+      return render_template("Manufacters/CatagoryManagment.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 @app.route('/catagory_managment_post',methods=['post'])
@@ -220,7 +258,10 @@ def catagory_managment_post():
 
 @app.route('/Catagory_Managment_Add')
 def Catagory_Managment_Add():
-    return render_template('Manufacters/Catagory Managment Add.html')
+    if session['log'] == 'lin':
+       return render_template('Manufacters/Catagory Managment Add.html')
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 @app.route('/Catagory_Managment_Add_post',methods=['post'])
@@ -239,7 +280,10 @@ def catagory_managment_add(id):
     db = Db()
     qry = "DELETE FROM `category` WHERE `category-id` ='"+id+"'"
     res = db.delete(qry)
-    return "<script>alert('deleted');window.location='/catagory_managment'</script>"
+    if session['log'] == 'lin':
+       return "<script>alert('deleted');window.location='/catagory_managment'</script>"
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -249,7 +293,11 @@ def Catagory_Managment_edit(id):
     db = Db()
     qry = " select * from category WHERE  `category-id`= '"+id+"'"
     res = db.selectOne(qry)
-    return render_template('Manufacters/Catagory Managment Edit.html',data=res)
+    if session['log'] == 'lin':
+       return render_template('Manufacters/Catagory Managment Edit.html',data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
+
 
 
 @app.route('/Catagory_Managment_edit_post',methods=['post'])
@@ -271,7 +319,10 @@ def delivary_rating():
     db = Db()
     qry=" SELECT * FROM `delivery_rating` JOIN `deliverry_assign`ON`deliverry_assign`.`assign_id`=`delivery_rating`.`assign_id` JOIN `order_main`ON`order_main`.`order_id`=`deliverry_assign`.`order_id`JOIN `user`ON`user`.`user_lid`=`order_main`.`user-lid`JOIN `staff`ON `staff`.`staff_`=`deliverry_assign`.`staff_id`WHERE `staff`.`man-id`='"+str(session['lid'])+"' "
     res = db.select(qry)
-    return render_template("Manufacters/DelivaryRating.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/DelivaryRating.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -283,7 +334,10 @@ def product_managment():
     db = Db()
     qry = "SELECT * FROM `product` JOIN `category`ON `category`.`category-id`=`product`.`categort-id` WHERE `man_id`='"+str(session['lid'])+"' "
     res = db.select(qry)
-    return render_template("Manufacters/ProductManagment.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/ProductManagment.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -306,7 +360,10 @@ def Product_Managment_edit(id):
     res=db.select(qry)
     qry2 = "SELECT * FROM `product`  JOIN `category`ON `category`.`category-id`=`product`.`categort-id` WHERE `pid`='"+id+"'"
     res1=db.selectOne(qry2)
-    return render_template("Manufacters/ProductManagment-Edit.html",data=res1,data2=res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/ProductManagment-Edit.html",data=res1,data2=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -345,8 +402,10 @@ def product_managment_addnew():
     db = Db()
     qry = " select * from category WHERE man_lid='"+str(session['lid'])+"'  "
     res = db.select(qry)
-
-    return render_template("Manufacters/Product managment-Add new.html",data = res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/Product managment-Add new.html",data = res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -375,7 +434,10 @@ def product_managment_delete(id):
     db = Db()
     qry = " DELETE FROM `product` WHERE `pid`='"+id+"' "
     res = db.delete(qry)
-    return "<script>alert('deleted');window.location='/product_managment'</script>"
+    if session['log'] == 'lin':
+       return "<script>alert('deleted');window.location='/product_managment'</script>"
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -387,7 +449,10 @@ def product_review():
     db = Db()
     qry = " SELECT * FROM `product_review` JOIN `user`ON `user`.`user_lid`=`product_review`.`user_lid` JOIN `product`ON`product`.`pid` = `product_review`.`pid` WHERE `product`.`man_id`= '"+str(session['lid'])+"' "
     res = db.select(qry)
-    return render_template("Manufacters/ProductReview.html",data = res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/ProductReview.html",data = res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -399,7 +464,10 @@ def profile_managment():
     db = Db()
     qry = "    SELECT * FROM `manufacturer` WHERE `man_lid`='"+str(session['lid'])+"'  "
     res = db.selectOne(qry)
-    return render_template("Manufacters/ProfileManagment.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/ProfileManagment.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -430,7 +498,10 @@ def profile_management_view():
     db = Db()
     qry = "Select * from manufacturer where man_lid='"+str(session['lid'])+"'"
     res = db.selectOne(qry)
-    return  render_template("Manufacters/ProfileManagment_View.html",data=res)
+    if session['log'] == 'lin':
+       return  render_template("Manufacters/ProfileManagment_View.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -463,7 +534,7 @@ def sign_up_post():
         res=db.insert(qry2)
         return redirect('/')
     else:
-        "ok"
+        "<script>alert('Password dose not match');window.location='/sign_up'</script>"
 
 
 
@@ -475,7 +546,10 @@ def staff_managment():
     db= Db()
     qry = "SELECT * FROM `staff` WHERE `man-id`= '"+str(session['lid'])+"' "
     res = db.select(qry)
-    return render_template("Manufacters/StaffManagment-0.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/StaffManagment-0.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 @app.route('/staff_managment_post',methods=['post'])
@@ -491,7 +565,10 @@ def staff_managment_post():
 
 @app.route('/staff_managment_add')
 def staff_managment_add():
-    return render_template("Manufacters/StaffManagment-AddNew.html")
+    if session['log'] == 'lin':
+      return render_template("Manufacters/StaffManagment-AddNew.html")
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 @app.route('/staff_managment_add_post',methods=['post'])
@@ -522,7 +599,10 @@ def StaffManagment_Edit(id):
     db = Db()
     qry = "Select * from staff where staff_='"+id+"'"
     res = db.selectOne(qry)
-    return render_template("Manufacters/StaffManagment-Edit.html",data=res)
+    if session['log'] == 'lin':
+       return render_template("Manufacters/StaffManagment-Edit.html",data=res)
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -551,14 +631,20 @@ def Staff_management_Delete(id):
     db = Db()
     qry = "DELETE FROM `staff` WHERE `staff_`='"+id+"'"
     res = db.delete(qry)
-    return "<script>alert('deleted');window.location='/staff_managment'</script>"
+    if session['log'] == 'lin':
+       return "<script>alert('deleted');window.location='/staff_managment'</script>"
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 
 
 @app.route('/Change_passwords')
 def Change_passwords():
-    return render_template("Manufacters/ChangePasswords.html")
+    if session['log'] == 'lin':
+       return render_template("Manufacters/ChangePasswords.html")
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
 
 
 @app.route('/Change_passwords_post',methods=['post'])
@@ -578,7 +664,121 @@ def Change_passwords_post():
 
 @app.route('/Home_Manufactors')
 def Home_Manufactors():
-    return render_template("Manufacters/Home_Manufactors.html")
+    if session['log'] == 'lin':
+       return render_template("Manufacters/index_manufacters.html")
+    else:
+        return "<script>alert('Log out');window.location='/'</script>"
+
+
+
+#========================================Flutter============================================================
+
+
+
+@app.route('/and_signup_post', methods=['POST'])
+def and_signup_post():
+    name = request.form['name']
+    age = request.form['age']
+    genter = request.form['genter']
+    place = request.form['place']
+    post = request.form['post']
+    pin = request.form['pin']
+    phone = request.form['phone']
+    email = request.form['email']
+    passwd = request.form['passwd']
+    Cpasswd = request.form['Cpasswd']
+    if passwd==Cpasswd:
+        db = Db()
+        qry = " INSERT INTO `login`(`username`,`password`,`type`)VALUES('" + email + "','" + passwd + "','user')"
+        res = db.insert(qry)
+        qry1 = "INSERT INTO `user`(`naame`,`age`,`gender`,`place`,`post`,`pin`,`phone`,`email`)VALUES('" + name + "','" + age + "','" + genter + "','" + place + "','" + post + "','" + pin + "','" + phone + "','" + email + "')"
+        res = db.insert(qry1)
+        return jsonify(status="ok", data=res)
+    else:
+        "Ok"
+
+
+
+
+@app.route('/and_view_category', methods=['POST'])
+def and_view_category():
+    qry="SELECT * FROM `category`"
+    db=Db()
+    res=db.select(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+
+@app.route('/and_view_product', methods=['POST'])
+def and_view_product ():
+    db=Db()
+    qry="SELECT * FROM `product`"
+    res=db.select(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+
+@app.route('/and_view_product_review', methods=['POST'])
+def and_view_product_review():
+    pid = request.form['pid']
+    db=Db()
+    qry="select * from `product_review`WHERE pid='"+pid+"' "
+    res=db.select(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+
+@app.route('/and_sent_product_review', methods=['POST'])
+def and_sent_product_review():
+    pid = request.form['pid']
+    user = request.form['user']
+    review = request.form['review']
+    rating = request.form['rating']
+    date = request.form['date']
+    db=Db()
+    qry=" INSERT INTO `product_review`(`pid`,`user_lid`,`review`,`rating`,`date`)VALUES('"+pid+"','"+user+"','"+review+"','"+rating+"','"+date+"') "
+    res=db.insert(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+
+@app.route('/and_sent_delivery_rating', methods=['POST'])
+def and_view_delivery_rating():
+    assignID = request.form['assignID']
+    rating = request.form['rating']
+    review = request.form['review']
+    date = request.form['date']
+    db=Db()
+    qry = " INSERT INTO `delivery_rating`(`assign_id`,`rating`,`review`,`date`)VALUES('"+assignID+"','"+rating+"','"+review+"','"+date+"') "
+    res = db.insert(qry)
+    return jsonify(status="ok" data=res)
+
+
+
+@app.route('/and_sent_complaints', methods=['POST'])
+def and_sent_complaints():
+    user = request.form['user']
+    complaint = request.form['complaint']
+    reply = request.form['reply']
+    date = request.form['date']
+    db=Db()
+    qry = " INSERT INTO `compalint`(`user_lid`,`complaint`,`status`,`replay`,`date`)VALUES('"+user+"','"+complaint+"','pending','"+reply+"','"+date+"') "
+    res = db.insert(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+@app.route('/and_view_reply', methods=['POST'])
+def and_view_reply():
+    user = request.form['user']
+    db=Db()
+    qry = " SELECT * FROM `compalint` WHERE `user_lid`='"+user+"' "
+    res = db.select(qry)
+    return jsonify(status="ok",data=res)
 
 
 

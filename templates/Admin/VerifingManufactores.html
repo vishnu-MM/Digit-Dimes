@@ -1,17 +1,17 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
+{% extends'Admin/index.html' %}
+{% block body %}
 
 <body>
 <form id="form1" name="form1" method="post" action="/verifing_manufactiores_post">
-  <label for="textfield"></label>
-  <input type="text" name="textfield" id="textfield" />
-  <input type="submit" name="button" id="button" value="Search" />
+   <table border="0" class="table table-borderless table-striped table-hover">
+    <tr>
+      <td> <input type="text" name="textfield" id="textfield" class="form-control" /> </td>
+      <td> <input type="submit" name="button" id="button" value="Search" class="btn btn-info" /> </td>
+    </tr>
+  </table>
+
 </form>
-<table width="341" height="174" border="1">
+<table border="0" class="table table-borderless table-striped table-hover">
   <tr>
     <td>#</td>
     <td>Name</td>
@@ -35,12 +35,12 @@
       {{i['post']}},
       {{i['pin']}},
     </td>
-    <td><a href="#">Trace</a></td>
-    <td><a href="/approve_manufactiores/{{ i['man_id'] }}">Approve</a></td>
-    <td><a href="/reject_manufactiores/{{ i['man_id'] }}">Reject</a></td>
+    <td><a href="#" class="btn btn-danger">Trace</a></td>
+    <td><a href="/approve_manufactiores/{{ i['man_id'] }}" class="btn btn-danger">Approve</a></td>
+    <td><a href="/reject_manufactiores/{{ i['man_id'] }}" class="btn btn-danger">Reject</a></td>
   </tr>
    {%endfor%}
 </table>
 <p>&nbsp;</p>
 </body>
-</html>
+{% endblock %}

@@ -1,19 +1,16 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
+{% extends 'Manufacters/index_manufacters.html' %}
+{% block body %}
 <body>
 <form id="form1" name="form1" method="post" action="/staff_managment_post">
-  <p>
-    <label>
-      <input type="text" name="textfield" id="textfield" />
-    </label>
-    <input type="submit" name="button" id="button" value="Search" />
-  <a href="/staff_managment_add"> Add New</a></p>
-  <table width="709" height="217" border="1">
+    <table border="0" class="table table-borderless table-striped table-hover">
+    <tr>
+        <td> <input type="text" name="textfield" id="textfield" /> </td>
+        <td> <input type="submit" name="button" id="button" value="Search" /> </td>
+    </tr>
+  </table>
+
+  <!--<a href="/staff_managment_add"> Add New</a></p>-->
+  <table border="0" class="table table-borderless table-striped table-hover">
     <tr>
       <td>Name</td>
       <td>ID</td>
@@ -40,12 +37,12 @@
            {{i['pin']}}
                          </td>
       <td> {{i['city']}} </td>
-       <td><a href="/StaffManagment_Edit/{{i['staff_']}}">Edit</a></td>
-        <td><a href="/Staff_management_Delete/{{i['staff_']}}">Delete</a></td>
+       <td><a href="/StaffManagment_Edit/{{i['staff_']}}#about" class="btn btn-danger">Edit</a></td>
+        <td><a href="/Staff_management_Delete/{{i['staff_']}}#about" class="btn btn-danger">Delete</a></td>
     </tr>
      {%endfor%}
   </table>
   <p>&nbsp;</p>
 </form>
 </body>
-</html>
+{% endblock %}

@@ -42,7 +42,7 @@
 	<link rel="stylesheet" href="/static/web/style.css">
     <link rel="stylesheet" href="/static/web/css/responsive.css">
 
-	
+
 	
 </head>
 <body class="js">
@@ -80,8 +80,8 @@
 						<div class="right-content">
 							<ul class="list-main">
 								<!--<li><i class="ti-location-pin"></i> Store location</li>-->
-								<!--&lt;!&ndash;<li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li>&ndash;&gt;-->
-								<!--<li><i class="ti-user"></i> <a href="#">My account</a></li>-->
+								<!--<li><i class="ti-alarm-clock"></i> <a href="#">Daily deal</a></li>-->
+								<li><i class="ti-user"></i> <a href="/profile_management_view#about">My account</a></li>
 								<li><i class="ti-power-off"></i><a href="/">Log Out</a></li>
 							</ul>
 						</div>
@@ -115,7 +115,7 @@
 						<!--/ End Search Form -->
 						<div class="mobile-nav"></div>
 					</div>
-					<div class="col-lg-8 col-md-7 col-12">
+					<!--<div class="col-lg-8 col-md-7 col-12">-->
 						<!--<div class="search-bar-top">-->
 							<!--<div class="search-bar">-->
 								<!--<select>-->
@@ -130,7 +130,7 @@
 								<!--</form>-->
 							<!--</div>-->
 						<!--</div>-->
-					</div>
+					<!--</div>-->
 					<!--<div class="col-lg-2 col-md-3 col-12">-->
 						<!--<div class="right-bar">-->
 							<!--&lt;!&ndash; Search Form &ndash;&gt;-->
@@ -254,28 +254,49 @@
 							<div class="menu-area">
 								<!-- Main Menu -->
 								<nav class="navbar navbar-expand-lg">
-									<div class="navbar-collapse">
-										<div class="nav-inner">
+									<div class="navbar-collapse">	
+										<div class="nav-inner">	
 											<ul class="nav main-menu menu navbar-nav">
 													<li class="active"><a href="#">Home</a></li>
 													<!--<li><a href="#">Product</a></li>												-->
 													<!--<li><a href="#">Service</a></li>-->
-													<li><a href="#">Manufacture</a>
+													<li><a href="#">Products</a>
 														<ul class="dropdown">
-															<li><a href="/verifing_manufactiores#about">Pending</a></li>
-															<li><a href="/approved_manufactures#about">Approved</a></li>
+															<li><a href="/product_managment_addnew#about">Add</a></li>
+															<li><a href="/product_managment#about">View</a></li>
 														</ul>
 													</li>
-													<li><a href="/view_user#about">Users</a></li>
-													<li><a href="/new_complaint#about">Complaints</a></li>
-													<li><a href="/Change_password#about">Change Password</a></li>
-
-													<li><a href="/static/web/contact.html">Contact Us</a></li>
+												    <li><a href="#"> Catagory</a>
+														<ul class="dropdown">
+															<li><a href="/Catagory_Managment_Add#about">Add</a></li>
+															<li><a href="/catagory_managment#about">View</a></li>
+														</ul>
+													</li>
+												      <li><a href="#">Review</a>
+														<ul class="dropdown">
+															<li><a href="/product_review#about">Product</a></li>
+															<li><a href="/delivary_rating#about">Delivery</a></li>
+														</ul>
+													</li>
+												    <li><a href="#">Staff</a>
+														<ul class="dropdown">
+															<li><a href="/staff_managment_add#about">Add</a></li>
+															<li><a href="/staff_managment#about">View</a></li>
+														</ul>
+													</li>
+                                                    <li><a href="#">Others</a>
+														<ul class="dropdown">
+															<li><a href="/staff_managment_add#about">Add</a></li>
+															<li><a href="/staff_managment#about">View</a></li>
+														</ul>
+													</li>
+													<li><a href="/view_user#about">Profile</a></li>
+												<!--<li><a href="/">Log out</a></li>-->
 												</ul>
 										</div>
 									</div>
 								</nav>
-								<!--/ End Main Menu -->
+								<!--/ End Main Menu -->	
 							</div>
 						</div>
 					</div>
@@ -2213,7 +2234,7 @@
 						<!-- Single Widget -->
 						<div class="single-footer about">
 							<div class="logo">
-								<img src="/static/web/images/digitDimes.png" alt="#">
+								<a href="index.html"><img src="/static/web/images/logo2.png" alt="#"></a>
 							</div>
 							<p class="text">Praesent dapibus, neque id cursus ucibus, tortor neque egestas augue,  magna eros eu erat. Aliquam erat volutpat. Nam dui mi, tincidunt quis, accumsan porttitor, facilisis luctus, metus.</p>
 							<p class="call">Got Question? Call us 24/7<span><a href="tel:123456789">+0123 456 789</a></span></p>

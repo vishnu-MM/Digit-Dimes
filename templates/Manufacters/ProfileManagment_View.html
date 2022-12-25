@@ -1,14 +1,10 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
+{% extends 'Manufacters/index_manufacters.html' %}
+{% block body %}
 
 <body>
 <form id="form1" name="form1" method="post" action="/profile_managment_view_post">
   <!--<input type="hidden" name="id" value="{{data['man_lid']}}">-->
-<table width="343" height="366" border="1">
+<table border="0" class="table table-borderless table-striped table-hover">
   <tr>
     <td>UserName</td>
     <td colspan="2"> {{data['name']}} </td>
@@ -48,11 +44,11 @@
   </tr>
   <tr>
     <td colspan="3">
-      <a href="profile_managment">edit</a>
+      <a href="profile_managment#about" class="btn btn-danger">edit</a>
     </td>
   </tr>
 </table>
 </form>
 
 </body>
-</html>
+{% endblock %}

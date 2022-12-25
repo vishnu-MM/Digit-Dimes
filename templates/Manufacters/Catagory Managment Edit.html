@@ -1,23 +1,19 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
+{% extends 'Manufacters/index_manufacters.html' %}
+{% block body %}
 
 <body>
 <form id="form1" name="form1" method="post" action="/Catagory_Managment_edit_post ">
   <input type="hidden" name="id" value="{{data['category-id']}}">
 
-  <table width="388" height="193" border="1">
+  <table border="0" class="table table-borderless table-striped table-hover">
     <tr>
       <td>Category Name</td>
       <td>
-        <input type="text" name="textfield" id="textfield"  value="{{data['category']}}" />
+        <input type="text" name="textfield" id="textfield"  value="{{data['category']}}" class="form-control"/>
       </td>
-      <td colspan="2"><input type="submit" name="button" id="button" value="Submit" /></td>
+      <td colspan="2"><input type="submit" name="button" id="button" value="Submit" class="btn btn-info" /></td>
     </tr>
   </table>
 </form>
 </body>
-</html>
+{% endblock %}

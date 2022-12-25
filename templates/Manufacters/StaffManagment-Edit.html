@@ -1,39 +1,34 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>Untitled Document</title>
-</head>
-
+{% extends 'Manufacters/index_manufacters.html' %}
+{% block body %}
 <body>
 <form id="form1" name="form1" method="post" action="/StaffManagment_Edit_post">
-  <table width="387" height="377" border="0">
+  <table border="0" class="table table-borderless table-striped table-hover">
     <tr>
       <input type="hidden" name="ID" value="{{data['staff_']}}">
       <td>Name</td>
       <td colspan="2"><label for="textfield"></label>
-      <input type="text" name="textfield" value="{{data['sname']}}" /></td>
+      <input type="text" name="textfield" value="{{data['sname']}}" class="form-control"/></td>
     </tr>
     <tr>
       <td>Age</td>
       <td colspan="2"><label for="textfield2"></label>
-      <input type="text" name="textfield2" value="{{data['age']}}" /></td>
+      <input type="text" name="textfield2" value="{{data['age']}}" class="form-control"/></td>
     </tr>
     <tr>
       <td>Gender</td>
       <td colspan="3"><p>
-        <input type="radio" name="radio" value="Female"  {% if data['gender']=='Female' %}checked {%endif%} />
+        <input type="radio" name="radio" value="Female" class="form-control" {% if data['gender']=='Female' %}checked {%endif%} />
         <label for="radio">Female   <br />
         </label>
       </p>
         <p>
 
-          <input type="radio" name="radio" value="Male"   {% if data['gender']=='Male' %}checked {%endif%} />
+          <input type="radio" name="radio" value="Male" class="form-control"   {% if data['gender']=='Male' %}checked {%endif%} />
           <label for="radio"> Male <br/>     </label>
 
         </p>
         <p>
-        <input type="radio" name="radio" value="Others"  {% if data['gender']=='Others' %}checked {%endif%} />
+        <input type="radio" name="radio" value="Others" class="form-control" {% if data['gender']=='Others' %}checked {%endif%} />
         <label for="radio">Others   <br />
         </label>
       </p>
@@ -42,23 +37,23 @@
     <tr>
       <td>Phone</td>
       <td colspan="2"><label for="textfield3"></label>
-      <input type="text" name="textfield3" value="{{data['phone']}}" /></td>
+      <input type="text" name="textfield3" value="{{data['phone']}}" class="form-control" /></td>
     </tr>
     <tr>
       <td>E-mail</td>
       <td colspan="2"><label for="textfield4"></label>
-      <input type="text" name="textfield4" value="{{data['email']}}" /></td>
+      <input type="text" name="textfield4" value="{{data['email']}}" class="form-control" /></td>
     </tr>
     <tr>
       <td rowspan="4">Address</td>
       <td>Place</td>
       <td><label for="textfield5"></label>
-      <input type="text" name="textfield5" value="{{data['place']}}" /></td>
+      <input type="text" name="textfield5" value="{{data['place']}}" class="form-control" /></td>
     </tr>
     <tr>
       <td>Pin</td>
       <td><label for="textfield6"></label>
-      <input type="text" name="textfield6" value="{{data['pin']}}" /></td>
+      <input type="text" name="textfield6" value="{{data['pin']}}" class="form-control" /></td>
     </tr>
     <tr>
       <td>Post</td>
@@ -68,12 +63,12 @@
     <tr>
       <td>City</td>
       <td><label for="textfield8"></label>
-      <input type="text" name="textfield8" value="{{data['city']}}" /></td>
+      <input type="text" name="textfield8" value="{{data['city']}}" class="form-control" /></td>
     </tr>
     <tr>
-      <td colspan="3"><input type="submit" name="button" id="button" value="Submit" /></td>
+      <td colspan="3"><input type="submit" name="button" id="button" value="Submit" class="btn btn-info" /></td>
     </tr>
   </table>
 </form>
 </body>
-</html>
+{% endblock %}
