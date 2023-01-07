@@ -674,6 +674,14 @@ def Home_Manufactors():
 #========================================Flutter============================================================
 
 
+@app.route('/View_Profile', methods=['POST'])
+def View_Profile():
+    lid = request.form['lid']
+    db = Db()
+    qry = " SELECT * FROM `user`WHERE `user_lid`="'+lid+'" "
+    res = db.select(qry)
+    return jsonify(status="ok", data=res)
+
 
 @app.route('/and_signup_post', methods=['POST'])
 def and_signup_post():
@@ -755,7 +763,7 @@ def and_view_delivery_rating():
     db=Db()
     qry = " INSERT INTO `delivery_rating`(`assign_id`,`rating`,`review`,`date`)VALUES('"+assignID+"','"+rating+"','"+review+"','"+date+"') "
     res = db.insert(qry)
-    return jsonify(status="ok" data=res)
+    return jsonify(status="ok",data=res)
 
 
 
@@ -780,6 +788,56 @@ def and_view_reply():
     res = db.select(qry)
     return jsonify(status="ok",data=res)
 
+
+
+@app.route('/and_add_to_cart', methods=['POST'])
+def and_add_to_cart():
+    product = request.form['product']
+    user = request.form['user']
+    qty = request.form['qty']
+    db=Db()
+    qry = " INSERT INTO `cart`(`pid`,`user_id`,`qty`) VALUES('"+product+"','"+user+"','"+qty+"') "
+    res = db.insert(qry)
+    return jsonify(status="ok",data=res)
+
+
+@app.route('/and_view_cart', methods=['POST'])
+def and_view_cart():
+    product = request.form['product']
+    db=Db()
+    qry = " SELECT * FROM cart JOIN `product` ON `product`.`pid`=`cart`.`pid` WHERE `cart`.pid='"+product+"' "
+    res = db.select(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+@app.route('/and_remove_Cart', methods=['POST'])
+def and_remove_Cart():
+    product = request.form['product']
+    db=Db()
+    qry = " delete from cart where pid='"+product+"' "
+    res = db.delete(qry)
+    return jsonify(status="ok",data=res)
+
+
+
+
+#========================================staff======================================================
+
+@app.route('/View_Profile', methods=['POST'])
+def View_Profile():
+    lid = request.form['lid']
+    db = Db()
+    qry = " SELECT * FROM `staff`WHERE `staff-lid`="'+lid+'""
+    res = db.select(qry)
+    return jsonify(status="ok", data=res)
+
+
+@app.route('/View_assigned_order', methods=['POST'])
+def View_assigned_order():
+    lid = request.form['lid']
+    db = Db()
+    qry = " "
 
 
 
