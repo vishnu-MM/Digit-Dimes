@@ -1,4 +1,4 @@
-{% extends'Admin/index.html' %}
+{% extends'Admin/Approved.html' %}
 {% block body %}
 <body>
 
@@ -33,8 +33,8 @@
          {{i['pin']}}<br>
          {{i['latitude']}} <br>
          {{i['longitude']}} </td>
-    <td><p><a href="#" class="btn btn-danger">Block</a></p>
-    <p><a href="#" class="btn btn-danger">Trace</a></p></td>
+    <td><p><a href="/reject_manufactiores/{{ i['man_id'] }}/{{ i['man_lid'] }}" class="btn btn-danger">Block</a></p><br>
+    <p><a href="#" class="btn btn-success">Trace</a></p></td>
   </tr>
      {%endfor%}
 </table>

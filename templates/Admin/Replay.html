@@ -1,8 +1,8 @@
-{% extends'Admin/index.html' %}
+{% extends "Admin/Complaints.html" %}
 {% block body %}
 <body>
 <form id="form1" name="form1" method="post" action="/replay_post">
-  <table border="0" class="table table-borderless table-striped table-hover">
+  <table class="table table-borderless table-striped table-hover">
     <input type="hidden" name="comp_id" value="{{ rid }}"/>
     <tr>
       <td>Replay</td>

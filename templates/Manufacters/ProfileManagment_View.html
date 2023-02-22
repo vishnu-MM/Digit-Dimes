@@ -1,10 +1,11 @@
-{% extends 'Manufacters/index_manufacters.html' %}
+{% extends 'Manufacters/MyProfile.html' %}
 {% block body %}
 
 <body>
 <form id="form1" name="form1" method="post" action="/profile_managment_view_post">
   <!--<input type="hidden" name="id" value="{{data['man_lid']}}">-->
-<table border="0" class="table table-borderless table-striped table-hover">
+<table  class="table table-borderless table-striped table-hover ">
+
   <tr>
     <td>UserName</td>
     <td colspan="2"> {{data['name']}} </td>
@@ -44,7 +45,7 @@
   </tr>
   <tr>
     <td colspan="3">
-      <a href="profile_managment#about" class="btn btn-danger">edit</a>
+      <a href="/profile_managment#about" class="btn btn-danger">edit</a>
     </td>
   </tr>
 </table>

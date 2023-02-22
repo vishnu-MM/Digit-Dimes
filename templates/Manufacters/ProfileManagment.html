@@ -1,10 +1,10 @@
-{% extends 'Manufacters/index_manufacters.html' %}
+{% extends 'Manufacters/MyProfile.html' %}
 {% block body %}
 
 <body>
 <form id="form1" name="form1" method="post" action="/profile_managment_post">
 
-<table border="0" class="table table-borderless table-striped table-hover">
+<table border="0" class="table table-borderless table-striped table-hover ta">
   <tr>
     <td>UserName</td>
     <td colspan="2"><label for="textfield"></label>
@@ -53,7 +53,7 @@
   </tr>
   <tr>
     <td colspan="2"><input type="submit" name="button" id="button" value="Update Profile" class="btn btn-outline-primary" /></td>
-      <td> <a href="/Change_passwords#about" class="btn btn-danger" > Change Password</a> </td>
+      <td> <a href="/Change_passwords#about" class="btn btn-outline-dark" > Change Password</a> </td>
   </tr>
 </table>
 </form>

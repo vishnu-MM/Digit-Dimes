@@ -5,13 +5,11 @@ app.secret_key="ghhjggm"
 
 
 
-
+#-----------------------------------------------------------------------------------------------------------------------Login
 
 @app.route('/')
 def login():
-    return render_template("index.html")
-
-
+    return render_template("LoginPage.html")
 
 @app.route('/login_post',methods=['post'])
 def login_post():
@@ -35,21 +33,22 @@ def login_post():
 
 
 
-
-#-----------------------------admin
+#=======================================================================================================================
+#--------------------------------------------------------------admin----------------------------------------------------
+#=======================================================================================================================
 
 
 @app.route('/logout')
 def logout():
     session['log']==""
-    return render_template("login.html")
+    return render_template("LoginPage.html")
 
 
 
 @app.route('/Home')
 def Home():
     if session['log']=='lin':
-        return render_template("Admin/index.html")
+        return render_template("Admin/HomePage.html")
     else:
         return "<script>alert('Log out');window.location='/'</script>"
 
@@ -109,7 +108,6 @@ def Change_passwor_post():
 
 
 
-
 @app.route('/new_complaint')
 def new_complaint():
     db = Db()
@@ -147,11 +145,28 @@ def replay_post():
     comp_id=request.form['comp_id']
     reply = request.form['textarea']
     db=Db()
-    qry="UPDATE `compalint` SET replay='"+reply+"',STATUS='replyed' WHERE comp_id="+comp_id+""
+    qry="UPDATE `compalint` SET replay='"+reply+"',STATUS='replyed' WHERE comp_id='"+comp_id+"'"
     res=db.update(qry)
     return redirect("/new_complaint")
 
 
+
+
+
+
+@app.route('/approve_manufactiores/<id>/<ema>/<passwd>')
+def approve_manufactiores(id,ema,passwd):
+    db = Db()
+    qry2 = "INSERT INTO `login`(`username`,`password`,`type`)VALUES('" + ema + "','" + passwd + "','manufacture')"
+    res2 = db.insert(qry2)
+    qry="UPDATE `manufacturer` SET STATUS='approved',`man_lid`='"+str(res2)+"' WHERE man_id='"+id+"'"
+    res=db.update(qry)
+    if session['log'] == 'lin':
+        return '''<script>alert('approved successfully');window.location='/verifing_manufactiores'</script>'''
+        pass
+    else:
+        pass
+    return "<script>alert('Log out');window.location='/'</script>"
 
 
 
@@ -168,24 +183,14 @@ def verifing_manufactiores():
 
 
 
-
-@app.route('/approve_manufactiores/<id>')
-def approve_manufactiores(id):
-    qry="UPDATE `manufacturer` SET STATUS='approved' WHERE man_id='"+id+"'"
-    db=Db()
-    res=db.update(qry)
-    if session['log'] == 'lin':
-       return '''<script>alert('approved successfully');window.location='/verifing_manufactiores'</script>'''
-    else:
-        return "<script>alert('Log out');window.location='/'</script>"
-
-
-
-@app.route('/reject_manufactiores/<id>')
-def reject_manufactiores(id):
-    qry="UPDATE `manufacturer` SET STATUS='reject' WHERE man_id='"+id+"'"
-    db=Db()
-    res=db.update(qry)
+@app.route('/reject_manufactiores/<id>/<man_lid>')
+def reject_manufactiores(id,man_lid):
+    db = Db()
+    qry ="UPDATE `manufacturer` SET STATUS='reject' WHERE man_id='"+id+"'"
+    res = db.update(qry)
+    print(man_lid)
+    qry2 = " DELETE FROM `login` WHERE lid='"+man_lid+"'"
+    res2 = db.update(qry2)
     if session['log'] == 'lin':
        return '''<script>alert('Rejected Successfully');window.location='/verifing_manufactiores'</script>'''
     else:
@@ -231,7 +236,11 @@ def view_user_post():
 
 
 
-#-------------------------------------------------------------manufacters
+
+#=======================================================================================================================
+#-------------------------------------------------------------- manufacteres -------------------------------------------
+#=======================================================================================================================
+
 
 
 @app.route('/catagory_managment')
@@ -243,6 +252,8 @@ def catagory_managment():
       return render_template("Manufacters/CatagoryManagment.html",data=res)
     else:
         return "<script>alert('Log out');window.location='/'</script>"
+
+
 
 
 @app.route('/catagory_managment_post',methods=['post'])
@@ -509,7 +520,7 @@ def profile_management_view():
 
 @app.route('/sign_up')
 def sign_up():
-    return render_template("Manufacters/Signup.html")
+    return render_template("Manufacters/SignUpPage.html")
 
 
 
@@ -528,10 +539,8 @@ def sign_up_post():
     passwdC = request.form['textfield11']
     db=Db()
     if passwd==passwdC:
-        qry="INSERT INTO `login`(`username`,`password`,`type`)VALUES('"+ema+"','"+passwd+"','manufacture')"
+        qry="INSERT INTO `manufacturer` (`name`,`propreitir_name`,`email`,`phone`,`place`,`post`,`pin`,`latitude`,`longitude`,`status`,passwd) VALUES('"+usrname+"','"+propri_name+"','"+ema+"','"+ph+"','"+place+"','"+pst+"','"+pin+"','"+Latitude+"','"+Longitude+"','pending','"+passwd+"')"
         res=db.insert(qry)
-        qry2="INSERT INTO `manufacturer` (`man_lid`,`name`,`propreitir_name`,`email`,`phone`,`place`,`post`,`pin`,`latitude`,`longitude`,`status`) VALUES('"+str(res)+"','"+usrname+"','"+propri_name+"','"+ema+"','"+ph+"','"+place+"','"+pst+"','"+pin+"','"+Latitude+"','"+Longitude+"','pending')"
-        res=db.insert(qry2)
         return redirect('/')
     else:
         "<script>alert('Password dose not match');window.location='/sign_up'</script>"
@@ -647,6 +656,8 @@ def Change_passwords():
         return "<script>alert('Log out');window.location='/'</script>"
 
 
+
+
 @app.route('/Change_passwords_post',methods=['post'])
 def Change_passwords_post():
     current_pass = request.form['textfield']
@@ -665,45 +676,76 @@ def Change_passwords_post():
 @app.route('/Home_Manufactors')
 def Home_Manufactors():
     if session['log'] == 'lin':
-       return render_template("Manufacters/index_manufacters.html")
+       return render_template("Manufacters/HomePage0.html")
     else:
         return "<script>alert('Log out');window.location='/'</script>"
 
 
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+#========================================Flutter========================================================================
+#$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-#========================================Flutter============================================================
 
 
-@app.route('/View_Profile', methods=['POST'])
-def View_Profile():
+
+
+#=======================================================================================================================
+#--------------------------------------------------------------Users----------------------------------------------------
+#=======================================================================================================================
+
+
+@app.route('/and_Login_post', methods=['POST'])
+def and_Login_post():
+    name=request.form['name']
+    passwd=request.form['passwd']
+    db = Db()
+    qry = "select * from login where username='" + name + "' and password='" + passwd + "'"
+    res = db.selectOne(qry)
+    print(res)
+    if res is not None:
+        lid = res['lid']
+        if res['type'] == 'user':
+            return jsonify(status="ok", lid=lid,type="user")
+        elif res['type'] == 'staff':
+            return jsonify(status="ok", lid=lid,type="staff")
+        else:
+            return jsonify(status="no")
+    else:
+        return jsonify(status="no")
+
+
+@app.route('/and_View_Profile_post', methods=['POST'])
+def and_View_Profile_post():
     lid = request.form['lid']
     db = Db()
-    qry = " SELECT * FROM `user`WHERE `user_lid`="'+lid+'" "
-    res = db.select(qry)
-    return jsonify(status="ok", data=res)
+    qry = " SELECT * FROM `user`WHERE `user_lid`='"+lid+"' "
+    res = db.selectOne(qry)
+    if res is not None:
+        return jsonify(status="ok", Name=res["naame"],Age=res["age"],Gender=res["gender"],Place=res["place"],Post=res["post"],Pin=res["pin"],Email=res["email"],Phone=res["phone"] )
+    else:
+        return jsonify(status="no")
 
 
 @app.route('/and_signup_post', methods=['POST'])
 def and_signup_post():
     name = request.form['name']
     age = request.form['age']
-    genter = request.form['genter']
+    gender = request.form['gender']
     place = request.form['place']
     post = request.form['post']
     pin = request.form['pin']
     phone = request.form['phone']
     email = request.form['email']
     passwd = request.form['passwd']
-    Cpasswd = request.form['Cpasswd']
-    if passwd==Cpasswd:
-        db = Db()
-        qry = " INSERT INTO `login`(`username`,`password`,`type`)VALUES('" + email + "','" + passwd + "','user')"
-        res = db.insert(qry)
-        qry1 = "INSERT INTO `user`(`naame`,`age`,`gender`,`place`,`post`,`pin`,`phone`,`email`)VALUES('" + name + "','" + age + "','" + genter + "','" + place + "','" + post + "','" + pin + "','" + phone + "','" + email + "')"
-        res = db.insert(qry1)
-        return jsonify(status="ok", data=res)
-    else:
-        "Ok"
+    # Cpasswd = request.form['Cpasswd']
+    # if passwd==Cpasswd:
+    db = Db()
+    qry = " INSERT INTO `login`(`username`,`password`,`type`)VALUES('" + email + "','" + passwd + "','user')"
+    res = db.insert(qry)
+    qry1 = "INSERT INTO `user`(`naame`,`age`,`gender`,`place`,`post`,`pin`,`phone`,`email`,user_lid)VALUES('" + name + "','" + age + "','" + gender + "','" + place + "','" + post + "','" + pin + "','" + phone + "','" + email + "','"+str(res)+"')"
+    res = db.insert(qry1)
+    return jsonify(status="ok", data=res)
+
 
 
 
@@ -713,6 +755,7 @@ def and_view_category():
     qry="SELECT * FROM `category`"
     db=Db()
     res=db.select(qry)
+    print(res)
     return jsonify(status="ok",data=res)
 
 
@@ -745,9 +788,8 @@ def and_sent_product_review():
     user = request.form['user']
     review = request.form['review']
     rating = request.form['rating']
-    date = request.form['date']
     db=Db()
-    qry=" INSERT INTO `product_review`(`pid`,`user_lid`,`review`,`rating`,`date`)VALUES('"+pid+"','"+user+"','"+review+"','"+rating+"','"+date+"') "
+    qry=" INSERT INTO `product_review`(`pid`,`user_lid`,`review`,`rating`,`date`)VALUES('"+pid+"','"+user+"','"+review+"','"+rating+"',curdate()) "
     res=db.insert(qry)
     return jsonify(status="ok",data=res)
 
@@ -769,15 +811,20 @@ def and_view_delivery_rating():
 
 @app.route('/and_sent_complaints', methods=['POST'])
 def and_sent_complaints():
+    pid=request.form["pid"]
     user = request.form['user']
     complaint = request.form['complaint']
-    reply = request.form['reply']
-    date = request.form['date']
     db=Db()
-    qry = " INSERT INTO `compalint`(`user_lid`,`complaint`,`status`,`replay`,`date`)VALUES('"+user+"','"+complaint+"','pending','"+reply+"','"+date+"') "
+    qry = " INSERT INTO `compalint`(`user_lid`,`complaint`,`status`,`date`,replay,pid)VALUES('"+user+"','"+complaint+"','pending',curdate(),'pending','"+pid+"') "
     res = db.insert(qry)
     return jsonify(status="ok",data=res)
 
+
+@app.route('/and_view_complaint', methods=['POST'])
+def and_view_complaint():
+    pid = request.form['pid']
+    df
+    return jsonify(status="ok", data=res)
 
 
 @app.route('/and_view_reply', methods=['POST'])
@@ -786,6 +833,7 @@ def and_view_reply():
     db=Db()
     qry = " SELECT * FROM `compalint` WHERE `user_lid`='"+user+"' "
     res = db.select(qry)
+    print(res)
     return jsonify(status="ok",data=res)
 
 
@@ -820,6 +868,34 @@ def and_remove_Cart():
     return jsonify(status="ok",data=res)
 
 
+@app.route('/and_EditProfile_post', methods=['POST'])
+def and_EditProfile_post():
+    lid = request.form['lid']
+    name = request.form['name']
+    age = request.form['age']
+    gender = request.form['gender']
+    place = request.form['place']
+    post = request.form['post']
+    pin = request.form['pin']
+    phone = request.form['phone']
+    email = request.form['email']
+
+    db = Db()
+    qry = " UPDATE `user` SET `naame`='"+name+"',`age`='"+age+"',`gender`='"+gender+"',`place`='"+place+"',`post`='"+post+"',`pin`='"+pin+"',`phone`='"+phone+"'   WHERE `user_lid`= '"+lid+"' "
+    res = db.update(qry)
+    return jsonify(status="ok",data=res)
+
+@app.route('/and_View_SingleProduct_post', methods=['POST'])
+def and_View_SingleProduct_post():
+    pid = request.form['pid']
+    db =Db()
+    qry = " SELECT * FROM `product` WHERE `pid`='"+pid+"' "
+    res = db.selectOne(qry)
+    print(res)
+    if res is not None:
+        return jsonify(status="ok",Name=res["product_name"],Price=res["price"],description=res["description"],photo=res["photo"] )
+    else:
+        return jsonify(status="no")
 
 
 #========================================staff======================================================
@@ -837,8 +913,30 @@ def View_Profile():
 def View_assigned_order():
     lid = request.form['lid']
     db = Db()
-    qry = " "
+    qry = " SELECT * FROM  `deliverry_assign` JOIN `order_main` ON `order_main`.`order_id` = `deliverry_assign`.`order_id` JOIN `order_sub` ON `order_sub`.`order_id` = `order_main`.`order_id` JOIN `product` ON `product`.`pid` = `order_sub`.`pid` JOIN `user` ON `user`.`user_lid` = `order_main`.`user-lid` WHERE `deliverry_assign`.`staff_id` = '"+lid+"' and `deliverry_assign`.`status`='p' "
+    res = db.select(qry)
+    return jsonify(status="ok", data=res)
 
 
 
-app.run(debug=True)
+@app.route('/View_rating', methods=['POST'])
+def View_rating():
+    lid = request.form['lid']
+    db = Db()
+    qry = " SELECT * FROM `delivery_rating` JOIN `deliverry_assign` ON  `deliverry_assign`.`assign_id`= `delivery_rating`.`assign_id` JOIN order_main ON order_main.`order_id`=  deliverry_assign.`order_id` JOIN `user`ON `user`.`user_lid`=`order_main`.`user-lid` WHERE `deliverry_assign`.`staff_id`='"+lid+"' "
+    res = db.select(qry)
+    return jsonify(status="ok", data=res)
+
+
+
+@app.route('/View_previous_order', methods=['POST'])
+def View_previous_order():
+    lid = request.form['lid']
+    db = Db()
+    qry = " SELECT * FROM  `deliverry_assign` JOIN `order_main` ON `order_main`.`order_id` = `deliverry_assign`.`order_id`   JOIN `user` ON `user`.`user_lid` = `order_main`.`user-lid` WHERE `deliverry_assign`.`staff_id` = '"+lid+"' "
+    res = db.select(qry)
+    return jsonify(status="ok", data=res)
+
+
+
+app.run(debug=True,host='0.0.0.0')

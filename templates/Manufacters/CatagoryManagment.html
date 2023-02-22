@@ -1,11 +1,12 @@
-{% extends 'Manufacters/index_manufacters.html' %}
+{% extends 'Manufacters/Catagory.html' %}
 {% block body %}
 <body>
 <form id="form1" name="form1" method="post" action="/catagory_managment_post">
    <table border="0" class="table table-borderless table-striped table-hover">
     <tr>
       <td> <input type="text" name="textfield" id="textfield" class="form-control"/> </td>
-      <td> <input type="submit" name="button" id="button" value="Search" class="btn btn-info"/> </td>
+      <td> <input type="submit" name="button" id="button" value="Search" class="btn btn-outline-success"/> </td>
+      <td> <a href="/Catagory_Managment_Add" class="btn btn-outline-primary">Add New</a> </td>
     </tr>
   </table>
 
@@ -21,7 +22,7 @@
     <tr>
       <td> {{loop.index}} </td>
       <td> {{i['category']}} </td>
-      <td> <a href="/Catagory_Managment_edit/{{i['category-id']}}#about" class="btn btn-danger">Edit</a> </td>
+      <td> <a href="/Catagory_Managment_edit/{{i['category-id']}}" class="btn btn-outline-warning">Edit</a> </td>
       <td> <a href="/catagory_managment_delete/{{i['category-id']}}" class="btn btn-danger">Delete</a> </td>
     </tr>
     {%endfor%}
