@@ -770,15 +770,37 @@ def and_view_product ():
 
 
 
+@app.route('/and_view_Cproduct', methods=['POST'])
+def and_view_Cproduct ():
+    cid=request.form['cid']
+    db=Db()
+    qry="SELECT * FROM `product` WHERE `categort-id`='"+cid+"'"
+    res=db.select(qry)
+    return jsonify(status="ok",data=res)
+
+
+
 
 @app.route('/and_view_product_review', methods=['POST'])
 def and_view_product_review():
     pid = request.form['pid']
+    print(pid)
     db=Db()
-    qry="select * from `product_review`WHERE pid='"+pid+"' "
+    qry="SELECT * FROM `product_review` JOIN USER ON user.user_lid = product_review.user_lid WHERE pid='"+pid+"' "
     res=db.select(qry)
+    print(res)
     return jsonify(status="ok",data=res)
 
+
+@app.route('/and_quantity_update', methods=['POST'])
+def and_quantity_update():
+    Qty = request.form['qty']
+    pid = request.form['pid']
+    uid = request.form['uid']
+    db = Db()
+    qry = " UPDATE `cart` SET `qty`='"+Qty+"' WHERE pid='"+pid+"' AND user_id='"+uid+"' "
+    res = db.update(qry)
+    return jsonify(status="ok", data=res)
 
 
 
@@ -791,7 +813,42 @@ def and_sent_product_review():
     db=Db()
     qry=" INSERT INTO `product_review`(`pid`,`user_lid`,`review`,`rating`,`date`)VALUES('"+pid+"','"+user+"','"+review+"','"+rating+"',curdate()) "
     res=db.insert(qry)
+    return jsonify(status="ok",data=res)\
+
+
+@app.route('/and_add_to_cart', methods=['POST'])
+def and_add_to_cart():
+    pid = request.form['pid']
+    uid = request.form['uid']
+    print(pid)
+    print(uid)
+    db=Db()
+    qry="  INSERT INTO `cart`(`pid`,`user_id`,`qty`)VALUES('"+pid+"','"+uid+"','1')  "
+    res=db.insert(qry)
     return jsonify(status="ok",data=res)
+
+
+
+
+@app.route('/and_view_add_to_cart', methods=['POST'])
+def and_view_add_to_cart():
+    uid = request.form['uid']
+    db = Db()
+    qry = "SELECT * FROM `cart` JOIN `product`ON `product`.`pid`=`cart`.`pid` WHERE user_id='"+uid+"'"
+    res = db.select(qry)
+    return jsonify(status="ok", data=res)
+
+
+@app.route('/and_remove_cart', methods=['POST'])
+def and_remove_cart():
+    uid = request.form['uid']
+    pid = request.form['pid']
+    print(uid,pid)
+    db = Db()
+    qry = " DELETE FROM `cart` WHERE `pid`='"+pid+"' AND user_id='"+uid+"' "
+    res = db.delete(qry)
+    return jsonify(status="ok", data=res)
+
 
 
 
@@ -823,7 +880,9 @@ def and_sent_complaints():
 @app.route('/and_view_complaint', methods=['POST'])
 def and_view_complaint():
     pid = request.form['pid']
-    df
+    db = Db()
+    qry = " select * from compalint JOIN `user` ON `user`.`user_lid`=`compalint`.`user_lid` where pid='"+pid+"' "
+    res =  db.select(qry)
     return jsonify(status="ok", data=res)
 
 
@@ -837,16 +896,6 @@ def and_view_reply():
     return jsonify(status="ok",data=res)
 
 
-
-@app.route('/and_add_to_cart', methods=['POST'])
-def and_add_to_cart():
-    product = request.form['product']
-    user = request.form['user']
-    qty = request.form['qty']
-    db=Db()
-    qry = " INSERT INTO `cart`(`pid`,`user_id`,`qty`) VALUES('"+product+"','"+user+"','"+qty+"') "
-    res = db.insert(qry)
-    return jsonify(status="ok",data=res)
 
 
 @app.route('/and_view_cart', methods=['POST'])
@@ -900,21 +949,35 @@ def and_View_SingleProduct_post():
 
 #========================================staff======================================================
 
-@app.route('/View_Profile', methods=['POST'])
-def View_Profile():
+@app.route('/staff_View_Profile_post', methods=['POST'])
+def staff_View_Profile_post():
     lid = request.form['lid']
+    print(lid)
     db = Db()
-    qry = " SELECT * FROM `staff`WHERE `staff-lid`="'+lid+'""
-    res = db.select(qry)
-    return jsonify(status="ok", data=res)
+    qry = " SELECT * FROM `staff`WHERE `staff-lid`= '"+lid+"' "
+    res = db.selectOne(qry)
+    if res is not None:
+        return jsonify(status="ok", Name=res["sname"], Age=res["age"],Gender=res["gender"],Place=res["place"],Post=res["post"],Pin=res["pin"],Email=res["email"],Phone=res["phone"],City=res["city"] )
+    else:
+        return jsonify(status="no")
 
 
 @app.route('/View_assigned_order', methods=['POST'])
 def View_assigned_order():
     lid = request.form['lid']
+    print(lid)
     db = Db()
-    qry = " SELECT * FROM  `deliverry_assign` JOIN `order_main` ON `order_main`.`order_id` = `deliverry_assign`.`order_id` JOIN `order_sub` ON `order_sub`.`order_id` = `order_main`.`order_id` JOIN `product` ON `product`.`pid` = `order_sub`.`pid` JOIN `user` ON `user`.`user_lid` = `order_main`.`user-lid` WHERE `deliverry_assign`.`staff_id` = '"+lid+"' and `deliverry_assign`.`status`='p' "
+    qry = "  SELECT  `deliverry_assign`.`assign_id`,`order_main`.amount,`order_sub`.qty,`product`.product_name,`product`.price,`user`.naame,`user`.phone,`user`.place,`user`.post,`user`.pin FROM  `deliverry_assign` JOIN `order_main` ON `order_main`.`order_id` = `deliverry_assign`.`order_id` JOIN `order_sub` ON `order_sub`.`order_id` = `order_main`.`order_id` JOIN `product` ON `product`.`pid` = `order_sub`.`pid` JOIN `user`ON `order_main`.`user-lid`=`user`.`user_lid`WHERE `deliverry_assign`.`staff_id` = '"+lid+"' AND `deliverry_assign`.`status`='p'  "
     res = db.select(qry)
+    print(res)
+    return jsonify(status="ok", data=res)
+
+@app.route('/update_assigned_order_post', methods=['POST'])
+def update_assigned_order_post():
+    id=request.form['id']
+    db = Db()
+    qry = "  UPDATE `deliverry_assign` SET `status`='delivered' WHERE `assign_id`='"+id+"' "
+    res = db.update(qry)
     return jsonify(status="ok", data=res)
 
 
@@ -933,7 +996,7 @@ def View_rating():
 def View_previous_order():
     lid = request.form['lid']
     db = Db()
-    qry = " SELECT * FROM  `deliverry_assign` JOIN `order_main` ON `order_main`.`order_id` = `deliverry_assign`.`order_id`   JOIN `user` ON `user`.`user_lid` = `order_main`.`user-lid` WHERE `deliverry_assign`.`staff_id` = '"+lid+"' "
+    qry = "  SELECT  `deliverry_assign`.`assign_id`,`order_main`.amount,`order_sub`.qty,`product`.product_name,`product`.price,`user`.naame,`user`.phone,`user`.place,`user`.post,`user`.pin FROM  `deliverry_assign` JOIN `order_main` ON `order_main`.`order_id` = `deliverry_assign`.`order_id` JOIN `order_sub` ON `order_sub`.`order_id` = `order_main`.`order_id` JOIN `product` ON `product`.`pid` = `order_sub`.`pid` JOIN `user`ON `order_main`.`user-lid`=`user`.`user_lid`WHERE `deliverry_assign`.`staff_id` = '"+lid+"' AND `deliverry_assign`.`status`='delivered'"
     res = db.select(qry)
     return jsonify(status="ok", data=res)
 
